@@ -1,0 +1,10 @@
+@import "../../node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css";
+@import "../../node_modules/admin-lte/dist/css/adminlte.min.css";
+
+.nav-link.active {
+    background-color: #d81b60 !important;
+}
+
+.nav-link.active>* {
+    color: white;
+}

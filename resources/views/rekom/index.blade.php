@@ -27,7 +27,6 @@
                         <thead>
                             <tr>
                                 <th>No. Rekom</th>
-                                <th>Pemberi Rekom</th>
                                 <th>Nama Pegawai</th>
                                 <th>NIP</th>
                                 <th>Universitas</th>
@@ -41,7 +40,6 @@
                             @forelse ($data_rekom as $rekom)
                                 <tr>
                                     <td>{{ $rekom->no_rekom }}</td>
-                                    <td>{{ $rekom->pimpinan->nama }}</td>
                                     <td>{{ $rekom->pegawai->nama }}</td>
                                     <td>{{ $rekom->pegawai->nip ?? '-' }}</td>
                                     <td>{{ $rekom->universitas }}</td>

@@ -22,6 +22,34 @@
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="bulan">Bulan</label>
+                                    <select name="bulan" id="bulan" class="form-control">
+                                        <option value="">Pilih Bulan</option>
+                                        @foreach ($data_bulan as $index => $bulan)
+                                            <option value="{{ $index + 1 }}">{{ $bulan }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                @php
+                                    $startYear = 2020;
+                                    $endYear = date('Y');
+                                    $years = range($endYear, $startYear);
+                                @endphp
+                                <div class="form-group">
+                                    <label for="tahun">Tahun</label>
+                                    <select name="tahun" id="tahun" class="form-control">
+                                        @foreach ($years as $year)
+                                            <option value="{{ $year }}">{{ $year }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-print"></i>

@@ -58,13 +58,6 @@
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label for="alamat">alamat</label>
-                            <textarea name="alamat" id="alamat" rows="3" class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat', $pegawai->alamat) }}</textarea>
-                            @error('alamat')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
                     </div>
                 </div>
             </div>

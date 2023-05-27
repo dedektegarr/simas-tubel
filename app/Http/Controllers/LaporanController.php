@@ -9,15 +9,19 @@ class LaporanController extends Controller
 {
     public function laporanTubel()
     {
+        $data_bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         return view('laporan.tubel', [
-            'page_title' => 'Laporan Tubel'
+            'page_title' => 'Laporan Tubel',
+            'data_bulan' => $data_bulan
         ]);
     }
 
     public function cetakTubel(Request $request)
     {
         $validated = $request->validate([
-            'jenis_tubel' => 'required'
+            'jenis_tubel' => 'required',
+            'bulan' => 'nullable',
+            'tahun' => 'required'
         ]);
 
         $page_title = 'Mandiri Tidak Berhenti Tugas';
@@ -29,10 +33,10 @@ class LaporanController extends Controller
         }
 
         $user = auth()->user();
-        $data_tubel = Tubel::where('jenis_tubel', $validated['jenis_tubel'])->get();
+        $data_tubel = Tubel::filter()->get();
 
         if ($user->level == 'pegawai') {
-            $data_tubel = Tubel::where('jenis_tubel', $validated['jenis_tubel'])->where('id_pegawai', $user->pegawai->id_pegawai)->get();
+            $data_tubel = Tubel::filter()->where('id_pegawai', $user->pegawai->id_pegawai)->get();
         }
 
         return view('tubel.print', [

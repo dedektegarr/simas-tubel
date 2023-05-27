@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
+use App\Models\Pimpinan;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class PegawaiController extends Controller
     {
         return view('pegawai.index', [
             'page_title' => 'Data Pegawai',
-            'data_pegawai' => Pegawai::orderByDesc('created_at')->get()
+            'data_pegawai' => Pegawai::orderByDesc('created_at')->get(),
+            'data_pimpinan' => Pimpinan::all()
         ]);
     }
 
@@ -40,9 +42,8 @@ class PegawaiController extends Controller
             'no_hp' => 'required|numeric',
             'golongan' => 'required',
             'pangkat' => 'required',
-            'alamat' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required'
+            'email' => 'nullable|email|unique:users',
+            'password' => 'nullable'
         ]);
 
         $akun = [
@@ -59,7 +60,6 @@ class PegawaiController extends Controller
             'no_hp' => $validated['no_hp'],
             'golongan' => $validated['golongan'],
             'pangkat' => $validated['pangkat'],
-            'alamat' => $validated['alamat'],
             'id_user' => $akun_created->id
         ];
 
@@ -98,13 +98,12 @@ class PegawaiController extends Controller
             'no_hp' => 'required|numeric',
             'golongan' => 'required',
             'pangkat' => 'required',
-            'alamat' => 'required',
             'password' => 'nullable',
             'email' => 'nullable'
         ];
 
         if ($pegawai->user->email !== $request->email) {
-            $rules['email'] = 'required|email|unique:users';
+            $rules['email'] = 'nullable|email|unique:users';
         }
 
 
@@ -127,7 +126,6 @@ class PegawaiController extends Controller
             'no_hp' => $validated['no_hp'],
             'golongan' => $validated['golongan'],
             'pangkat' => $validated['pangkat'],
-            'alamat' => $validated['alamat'],
         ];
 
         Pegawai::where('id_pegawai', $pegawai->id_pegawai)->update($updatedPegawai);

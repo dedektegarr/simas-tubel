@@ -12,8 +12,8 @@
 
     <link rel="shortcut icon" href="{{ asset('img/logo.jpg') }}" type="image/x-icon">
 
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-    <link rel="stylesheet" href="{{ asset('build/assets/app-6a5aa2f6.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-6a5aa2f6.css') }}"> --}}
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -70,8 +70,8 @@
             @include('layouts.partials.footer')
     </div>
 
-    {{-- @vite('resources/js/app.js') --}}
-    <script src="{{ asset('build/assets/app-b32bcb33.js') }}"></script>
+    @vite('resources/js/app.js')
+    {{-- <script src="{{ asset('build/assets/app-b32bcb33.js') }}"></script> --}}
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>

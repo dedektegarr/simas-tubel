@@ -30,7 +30,6 @@
                                 <th>Email</th>
                                 <th>Golongan</th>
                                 <th>Pangkat</th>
-                                <th>Alamat</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -41,15 +40,22 @@
                                     <td>{{ $pegawai->nama }}</td>
                                     <td>{{ $pegawai->nip ?? '-' }}</td>
                                     <td>{{ $pegawai->no_hp }}</td>
-                                    <td>{{ $pegawai->user->email }}</td>
+                                    <td>{{ $pegawai->user->email ?? '-' }}</td>
                                     <td>{{ $pegawai->golongan }}</td>
                                     <td>{{ $pegawai->pangkat }}</td>
-                                    <td>{{ $pegawai->alamat }}</td>
                                     <td>
                                         {{-- <a href="{{ route('pegawai.show', $pegawai->id_pegawai) }}"
                                             class="btn btn-info btn-sm">
                                             <i class="fas fa-eye"></i>
                                         </a> --}}
+                                        <!-- ADD modal -->
+                                        @if (Auth::user()->level == 'admin' || Auth::user()->level == 'pimpinan')
+                                            <a href="{{ route('tubel.createByPegawai', $pegawai->id_pegawai) }}"
+                                                class="btn btn-sm btn-info">
+                                                <i class="fas fa-plus"></i>
+                                                Tambah tubel
+                                            </a>
+                                        @endif
                                         <a href="{{ route('pegawai.edit', $pegawai->id_pegawai) }}"
                                             class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i>

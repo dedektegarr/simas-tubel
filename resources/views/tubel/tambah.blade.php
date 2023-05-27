@@ -12,21 +12,30 @@
                         @if (Auth::user()->level == 'pegawai')
                             <input type="hidden" name="id_pegawai" value="{{ Auth::user()->pegawai->id_pegawai }}">
                         @else
-                            <div class="form-group">
-                                <label for="id_pegawai">Pegawai</label>
-                                <select name="id_pegawai" id="id_pegawai"
-                                    class="form-control @error('id_pegawai') is-invalid @enderror">
-                                    <option value="">Pilih Pegawai</option>
-                                    @foreach ($data_pegawai as $pegawai)
-                                        <option value="{{ $pegawai->id_pegawai }}"
-                                            {{ old('id_pegawai') == $pegawai->id_pegawai ? 'selected' : '' }}>
-                                            {{ $pegawai->nama }}</option>
-                                    @endforeach
-                                </select>
-                                @error('id_pegawai')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            @if (isset($pegawai))
+                                <input type="hidden" name="id_pegawai" value="{{ $pegawai->id_pegawai }}">
+                                <div class="form-group">
+                                    <label for="nama">Pegawai</label>
+                                    <input type="text" class="form-control" name="nama" value="{{ $pegawai->nama }}"
+                                        readonly>
+                                </div>
+                            @else
+                                <div class="form-group">
+                                    <label for="id_pegawai">Pegawai</label>
+                                    <select name="id_pegawai" id="id_pegawai"
+                                        class="form-control @error('id_pegawai') is-invalid @enderror">
+                                        <option value="">Pilih Pegawai</option>
+                                        @foreach ($data_pegawai as $pegawai)
+                                            <option value="{{ $pegawai->id_pegawai }}"
+                                                {{ old('id_pegawai') == $pegawai->id_pegawai ? 'selected' : '' }}>
+                                                {{ $pegawai->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('id_pegawai')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            @endif
                         @endif
 
                         <div class="form-group">

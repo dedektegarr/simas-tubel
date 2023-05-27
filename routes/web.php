@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/pegawai', PegawaiController::class);
     Route::get('/cetak/pegawai', [PegawaiController::class, 'print'])->name('pegawai.print');
     Route::resource('/tubel', TubelController::class);
+    Route::get('/tubel/create/{pegawai}', [TubelController::class, 'createByPegawai'])->name('tubel.createByPegawai');
 
     Route::resource('/rekomendasi', RekomController::class);
     Route::get('/cetak/rekomendasi', [RekomController::class, 'print'])->name('rekomendasi.print');

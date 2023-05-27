@@ -43,6 +43,14 @@ class TubelController extends Controller
         ]);
     }
 
+    public function createByPegawai(Pegawai $pegawai)
+    {
+        return view('tubel.tambah', [
+            'page_title' => 'Tambah Data Tubel',
+            'pegawai' => $pegawai
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

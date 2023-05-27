@@ -38,9 +38,9 @@
                             <select name="golongan" id="golongan"
                                 class="form-control @error('golongan') is-invalid @enderror">
                                 <option value="">Pilih Golongan</option>
-                                <option value="1" {{ old('golongan') == 1 ? 'selected' : '' }}>1</option>
-                                <option value="2" {{ old('golongan') == 2 ? 'selected' : '' }}>2</option>
-                                <option value="3" {{ old('golongan') == 3 ? 'selected' : '' }}>3</option>
+                                <option value="IB" {{ old('golongan') == 'IB' ? 'selected' : '' }}>IB</option>
+                                <option value="IIB" {{ old('golongan') == 'IIB' ? 'selected' : '' }}>IIB</option>
+                                <option value="IIIB" {{ old('golongan') == 'IIIB' ? 'selected' : '' }}>IIIB</option>
                             </select>
                             @error('golongan')
                                 <span class="invalid-feedback">{{ $message }}</span>
@@ -51,13 +51,6 @@
                             <input type="text" class="form-control @error('pangkat') is-invalid @enderror" name="pangkat"
                                 value="{{ old('pangkat') }}" placeholder="Masukkan pangkat">
                             @error('pangkat')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="alamat">alamat</label>
-                            <textarea name="alamat" id="alamat" rows="3" class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat') }}</textarea>
-                            @error('alamat')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>

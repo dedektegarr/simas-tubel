@@ -17,9 +17,8 @@ return new class extends Migration
             $table->string('nama');
             $table->string('nip')->unique()->nullable();
             $table->string('no_hp');
-            $table->enum('golongan', [1, 2, 3, 4]);
+            $table->enum('golongan', ['IB', 'IIB', 'IIIB']);
             $table->string('pangkat');
-            $table->text('alamat');
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');

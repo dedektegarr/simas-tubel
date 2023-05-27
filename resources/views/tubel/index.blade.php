@@ -23,6 +23,7 @@
                             <tr>
                                 <th>Nomor SK</th>
                                 <th>Pegawai</th>
+                                <th>NIP</th>
                                 <th>Jenis Tubel</th>
                                 <th>Jenjang</th>
                                 <th>Universitas</th>
@@ -56,6 +57,7 @@
                                     <tr>
                                         <td>{{ $tubel->no_sk }}</td>
                                         <td>{{ $tubel->pegawai->nama }}</td>
+                                        <td>{{ $tubel->pegawai->nip ?? '-' }}</td>
                                         <td>{{ $jenis_tubel }}</td>
                                         <td>{{ strtoupper($tubel->jenjang) }}</td>
                                         <td>{{ $tubel->universitas }}</td>

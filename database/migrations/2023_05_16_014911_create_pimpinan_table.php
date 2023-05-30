@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('nip')->unique();
             $table->string('no_hp');
+            $table->boolean('status');
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');

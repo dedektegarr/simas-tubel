@@ -28,6 +28,7 @@
                                 <th>NIP</th>
                                 <th>No. Hp</th>
                                 <th>Email</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -39,6 +40,10 @@
                                     <td>{{ $pimpinan->nip }}</td>
                                     <td>{{ $pimpinan->no_hp }}</td>
                                     <td>{{ $pimpinan->user->email }}</td>
+                                    <td>{!! $pimpinan->status
+                                        ? '<span class="badge badge-success">Aktif</span>'
+                                        : '<span class="badge badge-secondary">Tidak Aktif</span>' !!}
+                                    </td>
                                     <td>
                                         <!-- Edit modal -->
                                         <button type="button" class="btn btn-warning btn-sm btn" data-toggle="modal"
@@ -54,6 +59,18 @@
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
+                                        @if (!$pimpinan->status)
+                                            <form action="{{ route('pimpinan.updateStatus', $pimpinan->id_pimpinan) }}"
+                                                method="POST" class="d-inline-block">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="btn btn-sm btn-info"
+                                                    onclick="return confirm('Yakin ingin menjadikan {{ $pimpinan->nama }} sebagai pimpinan baru?')">
+                                                    <i class="fas fa-user"></i>
+                                                    Aktifkan
+                                                </button>
+                                            </form>
+                                        @endif
                                     </td>
 
                                     <!-- Edit Modal -->
@@ -199,10 +216,21 @@
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select name="status" id="status"
+                                class="form-control @error('status') is-invalid @enderror">
+                                <option value="1" {{ old('status') ? 'active' : '' }}>Aktif</option>
+                                <option value="0" {{ old('status') ? 'active' : '' }}>Tidak Aktif</option>
+                            </select>
+                            @error('status')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary" id="addForm">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -210,6 +238,7 @@
     </div>
 @endsection
 @push('script')
+    {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
     <script>
         @if ($errors->any())
             $('#addModal').modal('show');

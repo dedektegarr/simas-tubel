@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\PimpinanConroller;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\RekomController;
 use App\Http\Controllers\TubelController;
@@ -33,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dashboard', DashboardController::class);
     Route::resource('/pimpinan', PimpinanController::class);
     Route::get('/cetak/pimpinan', [PimpinanController::class, 'print'])->name('pimpinan.print');
+    Route::patch('/pimpinan/update_status/{pimpinan}', [PimpinanController::class, 'updateStatus'])->name('pimpinan.updateStatus');
 
     Route::resource('/pegawai', PegawaiController::class);
     Route::get('/cetak/pegawai', [PegawaiController::class, 'print'])->name('pegawai.print');
@@ -40,7 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/tubel/create/{pegawai}', [TubelController::class, 'createByPegawai'])->name('tubel.createByPegawai');
 
     Route::resource('/rekomendasi', RekomController::class);
+    Route::patch('/rekomendasi/update_status/{rekomendasi}', [RekomController::class, 'updateStatus'])->name('rekomendasi.updateStatus');
     Route::get('/cetak/rekomendasi', [RekomController::class, 'print'])->name('rekomendasi.print');
+    Route::get('/rekomendasi/cetak_surat/{rekomendasi}', [RekomController::class, 'cetakSurat'])->name('rekomendasi.cetakSurat');
 
     Route::get('/laporan/tubel', [LaporanController::class, 'laporanTubel'])->name('laporan.tubel');
     Route::post('/laporan/tubel', [LaporanController::class, 'cetakTubel'])->name('laporan.cetakTubel');

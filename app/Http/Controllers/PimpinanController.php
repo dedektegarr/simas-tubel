@@ -15,7 +15,7 @@ class PimpinanController extends Controller
     {
         return view('pimpinan.index', [
             'page_title' => 'Data Pimpinan',
-            'data_pimpinan' => Pimpinan::orderByDesc('created_at')->get()
+            'data_pimpinan' => Pimpinan::orderByDesc('status')->get()
         ]);
     }
 
@@ -37,7 +37,8 @@ class PimpinanController extends Controller
             'nip' => 'required|numeric',
             'no_hp' => 'required|numeric',
             'email' => 'required|email|unique:users',
-            'password' => 'required'
+            'password' => 'required',
+            'status' => 'required'
         ]);
 
         $akun = [
@@ -46,18 +47,22 @@ class PimpinanController extends Controller
             'level' => 'pimpinan'
         ];
 
-        $akun_created = User::create($akun);
+        $cek_pimpinan = Pimpinan::where('status', 1)->count();
+        if (!$cek_pimpinan || !$validated['status']) {
+            $akun_created = User::create($akun);
 
-        $pimpinan = [
-            'nama' => $validated['nama'],
-            'nip' => $validated['nip'],
-            'no_hp' => $validated['no_hp'],
-            'id_user' => $akun_created->id
-        ];
+            $pimpinan = [
+                'nama' => $validated['nama'],
+                'nip' => $validated['nip'],
+                'no_hp' => $validated['no_hp'],
+                'id_user' => $akun_created->id,
+                'status' => $validated['status']
+            ];
+            Pimpinan::create($pimpinan);
+            return redirect()->back()->with('success', 'Data berhasil ditambah');
+        }
 
-        Pimpinan::create($pimpinan);
-
-        return redirect()->back()->with('success', 'Data berhasil ditambah');
+        return redirect()->back()->with('error', 'Data pimpinan sebelumnya masih aktif');
     }
 
     /**
@@ -74,6 +79,19 @@ class PimpinanController extends Controller
     public function edit(Pimpinan $pimpinan)
     {
         //
+    }
+
+    public function updateStatus(Pimpinan $pimpinan)
+    {
+        Pimpinan::where('status', 1)->update([
+            'status' => 0
+        ]);
+
+        Pimpinan::where('id_pimpinan', $pimpinan->id_pimpinan)->update([
+            'status' => 1
+        ]);
+
+        return redirect()->back()->with('success', 'Berhasil menambahkan ' . $pimpinan->nama . ' sebagain pimpinan baru');
     }
 
     /**

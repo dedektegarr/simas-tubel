@@ -5,7 +5,7 @@
             <div class="row mb-2">
                 <div class="col">
                     <!-- ADD modal -->
-                    @if (Auth::user()->level == 'admin' || Auth::user()->level == 'pimpinan')
+                    @if (Auth::user()->level == 'admin')
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
                             <i class="fas fa-plus"></i>
                             Tambah Data
@@ -31,9 +31,8 @@
                                 <th>NIP</th>
                                 <th>Universitas</th>
                                 <th>Tanggal</th>
-                                @if (Auth::user()->level == 'admin' || Auth::user()->level == 'pimpinan')
-                                    <th>Aksi</th>
-                                @endif
+                                <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,8 +43,12 @@
                                     <td>{{ $rekom->pegawai->nip ?? '-' }}</td>
                                     <td>{{ $rekom->universitas }}</td>
                                     <td>{{ $rekom->tgl_rekom }}</td>
+                                    <td>{!! $rekom->status
+                                        ? '<span class="badge badge-success">Disetujui</span>'
+                                        : '<span class="badge badge-secondary">Menunggu persetujuan</span>' !!}
+                                    </td>
                                     <td>
-                                        @if (Auth::user()->level == 'admin' || Auth::user()->level == 'pimpinan')
+                                        @if (Auth::user()->level == 'admin')
                                             <!-- Edit modal -->
                                             <button type="button" class="btn btn-warning btn-sm btn" data-toggle="modal"
                                                 data-target="#editModal-{{ $rekom->id_rekom }}">
@@ -60,21 +63,40 @@
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
-                                        @else
-                                            {{-- <form action="{{ route('tubel.store') }}" method="POST"
-                                                class="d-inline-block">
-                                                @csrf
-                                                <input type="hidden" name="id_pegawai" value="{{ $rekom->id_pegawai }}">
-                                                <input type="hidden" name="jenis_tubel" value="{{ $rekom->pegawai->jenis_tubel }}">
-                                                <input type="hidden" name="id_pegawai" value="{{ $rekom->no_rekom }}">
-                                                <input type="hidden" name="id_pegawai" value="{{ $rekom->id_pegawai }}">
-                                                <input type="hidden" name="id_pegawai" value="{{ $rekom->id_pegawai }}">
-                                                <input type="hidden" name="id_pegawai" value="{{ $rekom->id_pegawai }}">
-                                                <button type="submit" class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-check"></i>
-                                                    Setujui
-                                                </button>
-                                            </form> --}}
+                                            @if ($rekom->status)
+                                                <a href="{{ route('rekomendasi.cetakSurat', $rekom->id_rekom) }}"
+                                                    class="btn btn-sm btn-info" target="_blank">
+                                                    <i class="fas fa-print"></i>
+                                                    Cetak Surat
+                                                </a>
+                                            @endif
+                                        @endif
+                                        @if (Auth::user()->level == 'pegawai')
+                                            @if ($rekom->status)
+                                                <a href="" class="btn btn-sm btn-warning">
+                                                    <i class="fas fa-print"></i>
+                                                    Cetak Surat
+                                                </a>
+                                            @endif
+                                        @endif
+                                        @if (Auth::user()->level == 'pimpinan')
+                                            @if ($rekom->status)
+                                                <a href="" class="btn btn-sm btn-warning">
+                                                    <i class="fas fa-print"></i>
+                                                    Cetak Surat
+                                                </a>
+                                            @else
+                                                <form action="{{ route('rekomendasi.updateStatus', $rekom->id_rekom) }}"
+                                                    method="POST" class="d-inline-block">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-sm btn-success"
+                                                        onclick="return confirm('Yakin ingin menyetujui rekomendasi ini?')">
+                                                        <i class="fas fa-check"></i>
+                                                        Setujui
+                                                    </button>
+                                                </form>
+                                            @endif
                                         @endif
                                     </td>
                                     <!-- Edit Modal -->
@@ -109,15 +131,10 @@
                                                         @if (Auth::user()->level == 'admin')
                                                             <div class="form-group">
                                                                 <label for="id_pimpinan">Pimpinan</label>
-                                                                <select name="id_pimpinan" id="id_pimpinan"
-                                                                    class="form-control @error('id_pimpinan') is-invalid @enderror">
-                                                                    <option value="">Pilih Pimpinan</option>
-                                                                    @foreach ($data_pimpinan as $pimpinan)
-                                                                        <option value="{{ $pimpinan->id_pimpinan }}"
-                                                                            {{ old('id_pimpinan', $rekom->pimpinan->id_pimpinan) == $pimpinan->id_pimpinan ? 'selected' : '' }}>
-                                                                            {{ $pimpinan->nama }}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                                <input type="hidden" name="id_pimpinan"
+                                                                    value="{{ $pimpinan->id_pimpinan ?? '' }}">
+                                                                <input type="text" class="form-control" readonly
+                                                                    value="{{ $pimpinan->nama ?? '' }}">
                                                                 @error('id_pimpinan')
                                                                     <span class="invalid-feedback">{{ $message }}</span>
                                                                 @enderror
@@ -214,15 +231,8 @@
                         @if (Auth::user()->level == 'admin')
                             <div class="form-group">
                                 <label for="id_pimpinan">Pimpinan</label>
-                                <select name="id_pimpinan" id="id_pimpinan"
-                                    class="form-control @error('id_pimpinan') is-invalid @enderror">
-                                    <option value="">Pilih Pimpinan</option>
-                                    @foreach ($data_pimpinan as $pimpinan)
-                                        <option value="{{ $pimpinan->id_pimpinan }}"
-                                            {{ old('id_pimpinan') == $pimpinan->id_pimpinan ? 'selected' : '' }}>
-                                            {{ $pimpinan->nama }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="hidden" name="id_pimpinan" value="{{ $pimpinan->id_pimpinan ?? '' }}">
+                                <input type="text" class="form-control" readonly value="{{ $pimpinan->nama ?? '' }}">
                                 @error('id_pimpinan')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror

@@ -33,7 +33,7 @@ class RekomController extends Controller
             'page_title' => $page_title,
             'data_rekom' => $data_rekom,
             'data_pegawai' => Pegawai::all(),
-            'data_pimpinan' => Pimpinan::all()
+            'pimpinan' => Pimpinan::where('status', 1)->first()
         ]);
     }
 
@@ -58,6 +58,7 @@ class RekomController extends Controller
             'tgl_rekom' => 'required',
         ]);
 
+        $validated['status'] = 0;
         Rekom::create($validated);
 
         return redirect()->route('rekomendasi.index')->with('success', 'Data berhasil ditambah');
@@ -77,6 +78,15 @@ class RekomController extends Controller
     public function edit(Rekom $rekom)
     {
         //
+    }
+
+    public function updateStatus(Rekom $rekomendasi)
+    {
+        Rekom::where('id_rekom', $rekomendasi->id_rekom)->update([
+            'status' => 1
+        ]);
+
+        return redirect()->back()->with('success', 'Rekomendasi dengan nomor ' . $rekomendasi->no_rekom . ' telah disetujui');
     }
 
     /**
@@ -121,6 +131,14 @@ class RekomController extends Controller
         return view('rekom.print', [
             'page_title' => 'Cetak Data rekom',
             'data_rekom' => $data_rekom
+        ]);
+    }
+
+    public function cetakSurat(Rekom $rekomendasi)
+    {
+        return view('rekom.surat', [
+            'page_title' => 'Rekomendasi',
+            'rekom' => $rekomendasi
         ]);
     }
 }

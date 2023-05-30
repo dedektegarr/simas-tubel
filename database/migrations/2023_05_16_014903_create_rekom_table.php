@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('no_rekom');
             $table->string('universitas');
             $table->date('tgl_rekom');
+            $table->boolean('status');
             $table->timestamps();
 
             $table->foreign('id_pegawai')->references('id_pegawai')->on('pegawai');

@@ -83,7 +83,7 @@
             </tbody>
         </table>
 
-        <div class="row justify-content-end" style="margin-top: 5rem">
+        <div class="row justify-content-end" style="margin: 5rem 0">
             <div class="col-4">
                 <div class="ttd">
                     <h4 class="ttd-h4 text-center" style="font-size: 1rem">Plh. KEPALA BADAN KEPEGAWAIAN DAERAH

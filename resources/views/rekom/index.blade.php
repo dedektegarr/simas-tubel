@@ -65,7 +65,7 @@
                                             </form>
                                             @if ($rekom->status)
                                                 <a href="{{ route('rekomendasi.cetakSurat', $rekom->id_rekom) }}"
-                                                    class="btn btn-sm btn-info" target="_blank">
+                                                    target="_blank" class="btn btn-sm btn-info" target="_blank">
                                                     <i class="fas fa-print"></i>
                                                     Cetak Surat
                                                 </a>
@@ -73,7 +73,8 @@
                                         @endif
                                         @if (Auth::user()->level == 'pegawai')
                                             @if ($rekom->status)
-                                                <a href="" class="btn btn-sm btn-warning">
+                                                <a href="{{ route('rekomendasi.cetakSurat', $rekom->id_rekom) }}"
+                                                    target="_blank" class="btn btn-sm btn-warning">
                                                     <i class="fas fa-print"></i>
                                                     Cetak Surat
                                                 </a>
@@ -81,7 +82,8 @@
                                         @endif
                                         @if (Auth::user()->level == 'pimpinan')
                                             @if ($rekom->status)
-                                                <a href="" class="btn btn-sm btn-warning">
+                                                <a href="{{ route('rekomendasi.cetakSurat', $rekom->id_rekom) }}"
+                                                    target="_blank" class="btn btn-sm btn-warning">
                                                     <i class="fas fa-print"></i>
                                                     Cetak Surat
                                                 </a>
